@@ -61,6 +61,65 @@
 // 15
 // 15
 
+use std::io;
 
 fn main() {
+    let mut input = String::new();
+
+    io::stdin().read_line(&mut input).expect("Failed input");
+
+    let t: u16 = input.trim().parse().expect("t will be a number (u16)");
+
+    for _ in 0..t {
+        input.clear();
+
+        io::stdin().read_line(&mut input).expect("Failed input");
+
+        let pair_input = input.split_once(' ').expect("Failed input");
+        let n: u32 = pair_input.0.trim().parse().expect("n will be a number");
+        let k: u32 = pair_input.1.trim().parse().expect("n will be a number");
+
+        input.clear();
+
+        io::stdin().read_line(&mut input).expect("Failed input");
+        let first_try: Vec<u16> = input
+            .split_whitespace()
+            .map(|s| s.parse().expect("parse error"))
+            .collect();
+
+        input.clear();
+
+        io::stdin().read_line(&mut input).expect("Failed input");
+        let other_try: Vec<u16> = input
+            .split_whitespace()
+            .map(|s| s.parse().expect("parse error"))
+            .collect();
+
+        let mut max_other_try: u64 = other_try[0] as u64;
+
+        let max_quests = match n < k {
+            true => n,
+            false => k,
+        };
+
+        let mut result: u64 = 0;
+
+        let mut first_try_sum: u64 = 0;
+
+        for i in 0..max_quests {
+            if max_other_try < other_try[i as usize] as u64 {
+                max_other_try = other_try[i as usize] as u64;
+            }
+
+            first_try_sum += first_try[i as usize] as u64;
+
+            let calc: u64 = first_try_sum + max_other_try * ((k - i - 1) as u64);
+
+            result = match calc > result {
+                true => calc,
+                false => result,
+            }
+        }
+        println!("{result}")
+    }
 }
