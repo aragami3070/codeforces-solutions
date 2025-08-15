@@ -61,6 +61,54 @@
 // 55
 // 56
 
+type Index = u16;
+
+#[derive(Debug)]
+struct Triple {
+    pub first: (u32, Index),
+    pub second: (u32, Index),
+    pub third: (u32, Index),
+}
+
+impl Triple {
+    fn new() -> Triple {
+        Triple {
+            first: (0, 0),
+            second: (0, 0),
+            third: (0, 0),
+        }
+    }
+
+    fn add(&mut self, new_max: (u32, Index)) {
+        self.first = self.second;
+        self.second = self.third;
+        self.third = new_max;
+        self.sort()
+    }
+
+    fn sort(&mut self) {
+        if self.first > self.second {
+            swap(&mut self.first, &mut self.second);
+        }
+        if self.second > self.third {
+            swap(&mut self.second, &mut self.third);
+
+            if self.first > self.second {
+                swap(&mut self.first, &mut self.second);
+            }
+        }
+    }
+
+    fn is_full(&mut self) -> bool {
+        if self.first.0 == 0 || self.second.0 == 0 || self.third.0 == 0 {
+            false
+        } else {
+            true
+        }
+    }
+}
+
+use std::{io, mem::swap};
 
 fn main() {
 }
