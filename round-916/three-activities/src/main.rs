@@ -100,11 +100,7 @@ impl Triple {
     }
 
     fn is_full(&mut self) -> bool {
-        if self.first.0 == 0 || self.second.0 == 0 || self.third.0 == 0 {
-            false
-        } else {
-            true
-        }
+        !(self.first.0 == 0 || self.second.0 == 0 || self.third.0 == 0)
     }
 }
 
