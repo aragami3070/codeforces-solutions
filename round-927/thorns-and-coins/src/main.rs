@@ -51,17 +51,14 @@ fn main() {
     for _ in 0..t {
         input.clear();
         io::stdin().read_line(&mut input).expect("Failed n input");
-
-        let _n: u8 = input.trim().parse().expect("n must be u18");
-
         input.clear();
         io::stdin().read_line(&mut input).expect("Failed n input");
 
         let mut result = 0;
         let mut throns = 0;
 
-        for cell in input.split("") {
-            if cell == "*" {
+        for cell in input.chars() {
+            if cell == '*' {
                 throns += 1;
             } else {
                 throns = 0;
@@ -69,7 +66,7 @@ fn main() {
             if throns == 2 {
                 break;
             }
-            if cell == "@" {
+            if cell == '@' {
                 result += 1;
             }
         }
