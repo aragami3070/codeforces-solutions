@@ -16,16 +16,13 @@ impl<T> Node<T> {
     }
 }
 
-impl<T> LinkedList<T>
-where
-    T: Clone,
-{
-    // Create empty LinkedList
+impl<T> LinkedList<T> {
+    /// Creates a new [`LinkedList<T>`].
     pub fn new() -> LinkedList<T> {
         LinkedList { head: None, len: 0 }
     }
 
-    // Add new node in end of list
+    /// Add new node in end of [`LinkedList<T>`].
     pub fn push_back(&mut self, value: T) {
         let new_node = Box::new(Node::new(value));
 
@@ -46,7 +43,7 @@ where
         self.len += 1;
     }
 
-    // Add new node in start of list
+    /// Add new node in start of [`LinkedList<T>`]
     pub fn push_front(&mut self, value: T) {
         let mut new_node = Box::new(Node::new(value));
         new_node.next = self.head.take();
@@ -55,7 +52,10 @@ where
         self.len += 1;
     }
 
-    // Add new node after node by index
+    /// Add new node after node by index
+    ///
+    /// # Panics
+    /// Panics if index incorrect
     pub fn insert(&mut self, index: usize, value: T) {
         if index > self.len - 1 {
             panic!("Index out of list range");
@@ -81,6 +81,7 @@ where
         self.len += 1;
     }
 
+    /// Returns the pop back of this [`LinkedList<T>`].
     pub fn pop_back(&mut self) -> Option<T> {
         if self.len == 1 {
             let head = self.head.take().unwrap();
