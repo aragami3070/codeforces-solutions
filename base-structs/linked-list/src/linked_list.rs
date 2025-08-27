@@ -16,12 +16,13 @@ impl<T> Node<T> {
     }
 }
 
-impl<T> LinkedList<T> {
+impl<T> LinkedList<T>
+where
+    T: Clone,
+{
+    // Create empty LinkedList
     pub fn new() -> LinkedList<T> {
-        LinkedList {
-            head: None,
-            len: 0,
-        }
+        LinkedList { head: None, len: 0 }
     }
 
     // Add new node in end of list
@@ -41,8 +42,8 @@ impl<T> LinkedList<T> {
                 current_node = &mut node.next;
             }
         }
-		
-		self.len += 1;
+
+        self.len += 1;
     }
 
     // Add new node in start of list
@@ -56,27 +57,55 @@ impl<T> LinkedList<T> {
 
     // Add new node after node by index
     pub fn insert(&mut self, index: usize, value: T) {
-		if index > self.len - 1 {
-			panic!("Index out of list range");
-		}
+        if index > self.len - 1 {
+            panic!("Index out of list range");
+        }
 
-		let mut index = index;
+        let mut index = index;
         let mut new_node = Box::new(Node::new(value));
-		let mut current_node = &mut self.head;
+        let mut current_node = &mut self.head;
 
-		while let Some(node) = current_node {
-			// find needed node
-			if index == 0 {
-				// move others nodes to new next (node.next == None now)
-				new_node.next = node.next.take();
-				// set new node in list like next after node by index
-				node.next = Some(new_node);
-				break;
-			}
-			// go to next node
-			current_node = &mut node.next;
-			index -= 1;
-		}
-		self.len += 1;
+        while let Some(node) = current_node {
+            // find needed node
+            if index == 0 {
+                // move others nodes to new next (node.next == None now)
+                new_node.next = node.next.take();
+                // set new node in list like next after node by index
+                node.next = Some(new_node);
+                break;
+            }
+            // go to next node
+            current_node = &mut node.next;
+            index -= 1;
+        }
+        self.len += 1;
+    }
+
+    pub fn pop_back(&mut self) -> Option<T> {
+        let result;
+
+        if let Some(head) = &mut self.head
+            && head.next.is_none()
+        {
+            result = Some(head.value.clone());
+            self.head = None;
+            self.len -= 1;
+            return result;
+        }
+
+        let mut current_node = &mut self.head;
+        while let Some(node) = current_node {
+            if let Some(next_node) = &mut node.next
+                && next_node.next.is_none()
+            {
+                result = Some(next_node.value.clone());
+                node.next = None;
+                self.len -= 1;
+                return result;
+            }
+
+            current_node = &mut node.next;
+        }
+        None
     }
 }
