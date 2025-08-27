@@ -37,4 +37,11 @@ impl<T> LinkedList<T> {
             }
         }
     }
+
+    pub fn push_front(&mut self, value: T) {
+        let mut new_node = Box::new(Node::new(value));
+        new_node.next = self.head.take();
+
+        self.head = Some(new_node);
+    }
 }
