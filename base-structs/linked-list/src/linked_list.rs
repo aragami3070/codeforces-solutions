@@ -1,14 +1,16 @@
 use std::mem;
 
+type Link<T> = Option<Box<Node<T>>>;
+
 #[derive(Debug)]
 struct Node<T> {
     value: T,
-    next: Option<Box<Node<T>>>,
+    next: Link<T>,
 }
 
 #[derive(Debug)]
 pub struct LinkedList<T> {
-    head: Option<Box<Node<T>>>,
+    head: Link<T>,
     len: usize,
 }
 
@@ -114,10 +116,8 @@ impl<T> Drop for LinkedList<T> {
     fn drop(&mut self) {
         let mut current_node = mem::replace(&mut self.head, None);
 
-        while let Some(node) = current_node {
-            current_node = mem::replace(&mut Some(node), None);
+        while let Some(mut node) = current_node {
+            current_node = mem::replace(&mut node.next, None);
         }
-
-		println!("Log: Values, was droped")
     }
 }
