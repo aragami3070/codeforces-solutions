@@ -22,6 +22,11 @@ impl<T> LinkedList<T> {
         LinkedList { head: None, len: 0 }
     }
 
+	/// Returns the length of this [`LinkedList<T>`].
+pub fn len(&self) ->usize {
+		self.len
+	}
+
     /// Add new node in end of [`LinkedList<T>`].
     pub fn push_back(&mut self, value: T) {
         let new_node = Box::new(Node::new(value));
