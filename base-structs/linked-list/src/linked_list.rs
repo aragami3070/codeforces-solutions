@@ -7,6 +7,7 @@ struct Node<T> {
 #[derive(Debug)]
 pub struct LinkedList<T> {
     head: Option<Box<Node<T>>>,
+    len: usize,
 }
 
 impl<T> Node<T> {
@@ -17,9 +18,13 @@ impl<T> Node<T> {
 
 impl<T> LinkedList<T> {
     pub fn new() -> LinkedList<T> {
-        LinkedList { head: None }
+        LinkedList {
+            head: None,
+            len: 0,
+        }
     }
 
+    // Add new node in end of list
     pub fn push_back(&mut self, value: T) {
         let new_node = Box::new(Node::new(value));
 
@@ -36,12 +41,16 @@ impl<T> LinkedList<T> {
                 current_node = &mut node.next;
             }
         }
+		
+		self.len += 1;
     }
 
+    // Add new node in start of list
     pub fn push_front(&mut self, value: T) {
         let mut new_node = Box::new(Node::new(value));
         new_node.next = self.head.take();
 
         self.head = Some(new_node);
+        self.len += 1;
     }
 }
