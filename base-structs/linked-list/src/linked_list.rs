@@ -53,4 +53,30 @@ impl<T> LinkedList<T> {
         self.head = Some(new_node);
         self.len += 1;
     }
+
+    // Add new node after node by index
+    pub fn insert(&mut self, index: usize, value: T) {
+		if index > self.len - 1 {
+			panic!("Index out of list range");
+		}
+
+		let mut index = index;
+        let mut new_node = Box::new(Node::new(value));
+		let mut current_node = &mut self.head;
+
+		while let Some(node) = current_node {
+			// find needed node
+			if index == 0 {
+				// move others nodes to new next (node.next == None now)
+				new_node.next = node.next.take();
+				// set new node in list like next after node by index
+				node.next = Some(new_node);
+				break;
+			}
+			// go to next node
+			current_node = &mut node.next;
+			index -= 1;
+		}
+		self.len += 1;
+    }
 }
