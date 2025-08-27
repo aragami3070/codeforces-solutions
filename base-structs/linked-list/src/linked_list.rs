@@ -110,6 +110,16 @@ impl<T> LinkedList<T> {
         }
         None
     }
+
+    pub fn pop_front(&mut self) -> Option<T> {
+        if self.len == 0 {
+            return None;
+        }
+        let head = self.head.take().unwrap();
+        self.head = head.next;
+        self.len -= 1;
+        Some(head.value)
+    }
 }
 
 impl<T> Drop for LinkedList<T> {
