@@ -82,26 +82,18 @@ where
     }
 
     pub fn pop_back(&mut self) -> Option<T> {
-        let result;
-
-        if let Some(head) = &mut self.head
-            && head.next.is_none()
-        {
-            result = Some(head.value.clone());
-            self.head = None;
+        if self.len == 1 {
+            let head = self.head.take().unwrap();
             self.len -= 1;
-            return result;
+            return Some(head.value);
         }
 
         let mut current_node = &mut self.head;
         while let Some(node) = current_node {
-            if let Some(next_node) = &mut node.next
-                && next_node.next.is_none()
-            {
-                result = Some(next_node.value.clone());
-                node.next = None;
+            if node.next.as_ref().map_or(false, |n| n.next.is_none()) {
+                let next_node = node.next.take().unwrap();
                 self.len -= 1;
-                return result;
+                return Some(next_node.value);
             }
 
             current_node = &mut node.next;
