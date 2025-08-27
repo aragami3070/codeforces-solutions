@@ -19,4 +19,22 @@ impl<T> LinkedList<T> {
     pub fn new() -> LinkedList<T> {
         LinkedList { head: None }
     }
+
+    pub fn push_back(&mut self, value: T) {
+        let new_node = Box::new(Node::new(value));
+
+        if self.head.is_none() {
+            self.head = Some(new_node);
+        } else {
+            let mut current_node = &mut self.head;
+
+            while let Some(node) = current_node {
+                if node.next.is_none() {
+                    node.next = Some(new_node);
+                    break;
+                }
+                current_node = &mut node.next;
+            }
+        }
+    }
 }
