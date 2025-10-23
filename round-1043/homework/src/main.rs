@@ -34,21 +34,18 @@ fn main() {
         let mut vlad = String::new();
         let mut dima = String::new();
 
-        let mut index = 0;
-
-        for i in input.chars() {
+        for (index, i) in input.chars().enumerate() {
             if i == 'V' {
-                vlad.push_str(&second_str[index..index+1]);
+                vlad.push_str(&second_str[index..index + 1]);
             }
             if i == 'D' {
-                dima.push_str(&second_str[index..index+1]);
+                dima.push_str(&second_str[index..index + 1]);
             }
-            index += 1;
         }
 
-		vlad = vlad.chars().rev().collect();
-        vlad.push_str(&first_str.trim());
-        vlad.push_str(&dima.trim());
+        vlad = vlad.chars().rev().collect();
+        vlad.push_str(first_str.trim());
+        vlad.push_str(dima.trim());
         println!("{vlad}")
     }
 }
