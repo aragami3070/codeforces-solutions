@@ -1,4 +1,3 @@
-use std::mem;
 
 type Link<T> = Option<Box<Node<T>>>;
 
@@ -100,7 +99,7 @@ impl<T> LinkedList<T> {
 
         let mut current_node = &mut self.head;
         while let Some(node) = current_node {
-            if node.next.as_ref().map_or(false, |n| n.next.is_none()) {
+            if node.next.as_ref().is_some_and(|n| n.next.is_none()) {
                 let next_node = node.next.take().unwrap();
                 self.len -= 1;
                 return Some(next_node.value);
@@ -111,6 +110,7 @@ impl<T> LinkedList<T> {
         None
     }
 
+    /// Returns the pop front of this [`LinkedList<T>`].
     pub fn pop_front(&mut self) -> Option<T> {
         if self.len == 0 {
             return None;
@@ -124,10 +124,10 @@ impl<T> LinkedList<T> {
 
 impl<T> Drop for LinkedList<T> {
     fn drop(&mut self) {
-        let mut current_node = mem::replace(&mut self.head, None);
+        let mut current_node = self.head.take();
 
         while let Some(mut node) = current_node {
-            current_node = mem::replace(&mut node.next, None);
+            current_node = node.next.take();
         }
     }
 }
