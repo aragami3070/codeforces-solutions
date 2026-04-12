@@ -1,0 +1,6 @@
+[package]
+name = "xor_67_task5"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
