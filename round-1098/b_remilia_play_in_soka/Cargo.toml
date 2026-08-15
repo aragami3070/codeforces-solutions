@@ -1,0 +1,6 @@
+[package]
+name = "b_remilia_play_in_soka"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
